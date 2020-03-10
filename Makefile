@@ -13,7 +13,7 @@ test-invoke: build-linux
 		-i -e DOCKER_LAMBDA_USE_STDIN=1 \
 		--rm \
 		-v /tmp/lambda:/var/task \
-		lambci/lambda:provided
+		lambci/lambda:provided < input.json
 
 terraform_init:
 	cd aws && \
@@ -27,6 +27,7 @@ deploy: build-linux terraform_init
 	cd aws && \
 	terraform apply
 
+
 invoke-lambda:
 	aws lambda invoke --function-name eatmyshorts \
-  		--payload '{"firstName": "lambda"}' invoke-output.json
+  		--payload '{"url": "https://www.google.com/", "exp": "2020-11-28T12:45:59Z"}' invoke-output.json
